@@ -1,9 +1,20 @@
 const functions = require("firebase-functions");
+const admin = require("firebase-admin");
 
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
+admin.initializeApp();
+const db = admin.firestore();
 
-exports.helloWorld = functions.https.onRequest((request, response) => {
-  functions.logger.info("Hello logs!", { structuredData: true });
-  response.send("Hello from Firebase!");
+exports.getTrolls = functions.https.onRequest((request, response) => {
+  db.collection("trolls")
+    .get()
+    .then((docs) => {
+      let trolls = [];
+
+      docs.forEach((doc) => {
+        trolls.push(doc.data());
+      });
+
+      return response.json(trolls);
+    })
+    .catch((err) => console.error(err));
 });

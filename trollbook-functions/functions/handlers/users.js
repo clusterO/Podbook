@@ -1,7 +1,11 @@
 const firebaseConfig = require("../util/config");
 const { db, admin } = require("../util/admin");
 const firebase = require("firebase");
-const { validateSignUpData, validateLoginData } = require("../util/validators");
+const {
+  validateSignUpData,
+  validateLoginData,
+  reduceUserDetails,
+} = require("../util/validators");
 
 firebase.initializeApp(firebaseConfig);
 
@@ -85,6 +89,20 @@ exports.login = (request, response) => {
       if (err.code === "auth/wrong-password")
         return response.status(403).json({ general: "Wrong credentials " });
 
+      return response.status(500).json({ error: err.code });
+    });
+};
+
+exports.addUserDetails = (request, response) => {
+  let userDetails = reduceUserDetails(request.body);
+
+  db.doc(`/users/${request.user.handle}`)
+    .update(userDetails)
+    .then(() => {
+      return response.json({ message: "Details added" });
+    })
+    .catch(err => {
+      console.error(err);
       return response.status(500).json({ error: err.code });
     });
 };

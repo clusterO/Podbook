@@ -7,6 +7,7 @@ const {
   login,
   uploadImage,
   addUserDetails,
+  getAuthenticatedUser,
 } = require("./handlers/users");
 
 // troll routes
@@ -14,6 +15,7 @@ app.get("/trolls", getAllTrolls);
 app.post("/troll", FBAuth, addTroll);
 app.post("/user/image", FBAuth, uploadImage);
 app.post("/user", FBAuth, addUserDetails);
+app.get("/user", FBAuth, getAuthenticatedUser);
 
 // user routes
 app.post("/signup", signUp);

@@ -45,3 +45,36 @@ exports.addTroll = (request, response) => {
         .json({ error: `something went south ${err}` });
     });
 };
+
+exports.getTroll = (request, response) => {
+  let trollData = {};
+
+  db.doc(`/trolls/${request.params.trollId}`)
+    .get()
+    .then(doc => {
+      if (!doc.exists)
+        return response.status(404).json({ error: "Troll not found" });
+
+      trollData = doc.data();
+      trollData.trollId = doc.id;
+
+      return db
+        .collection("comments")
+        .orderBy("createdAt", "desc")
+        .where("trollId", "==", request.params.trollId)
+        .get();
+    })
+    .then(data => {
+      trollData.comments = [];
+
+      data.forEach(doc => {
+        trollData.comments.push(doc.data());
+      });
+
+      return response.json(trollData);
+    })
+    .catch(err => {
+      console.error(err);
+      return response.status(500).json({ error: err.code });
+    });
+};

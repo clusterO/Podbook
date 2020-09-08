@@ -1,7 +1,12 @@
 const functions = require("firebase-functions");
 const app = require("express")();
 const FBAuth = require("./util/fbAuth");
-const { getAllTrolls, addTroll } = require("./handlers/trolls");
+const {
+  getAllTrolls,
+  addTroll,
+  getTroll,
+  commentOnTroll,
+} = require("./handlers/trolls");
 const {
   signUp,
   login,
@@ -13,12 +18,14 @@ const {
 // troll routes
 app.get("/trolls", getAllTrolls);
 app.post("/troll", FBAuth, addTroll);
-app.post("/user/image", FBAuth, uploadImage);
-app.post("/user", FBAuth, addUserDetails);
-app.get("/user", FBAuth, getAuthenticatedUser);
+app.get("/troll/:trollId", getTroll);
+app.post("/troll/:trollId/comment", FBAuth, commentOnTroll);
 
 // user routes
 app.post("/signup", signUp);
 app.post("/login", login);
+app.post("/user/image", FBAuth, uploadImage);
+app.post("/user", FBAuth, addUserDetails);
+app.post("/user", FBAuth, getAuthenticatedUser);
 
 exports.api = functions.https.onRequest(app);

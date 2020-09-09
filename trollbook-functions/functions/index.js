@@ -6,6 +6,8 @@ const {
   addTroll,
   getTroll,
   commentOnTroll,
+  likeTroll,
+  unLikeTroll,
 } = require("./handlers/trolls");
 const {
   signUp,
@@ -20,6 +22,8 @@ app.get("/trolls", getAllTrolls);
 app.post("/troll", FBAuth, addTroll);
 app.get("/troll/:trollId", getTroll);
 app.post("/troll/:trollId/comment", FBAuth, commentOnTroll);
+app.get("/troll/:trollId/like", FBAuth, likeTroll);
+app.get("/troll/:trollId/unlike", FBAuth, unLikeTroll);
 
 // user routes
 app.post("/signup", signUp);

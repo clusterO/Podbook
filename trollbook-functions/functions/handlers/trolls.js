@@ -28,15 +28,18 @@ exports.addTroll = (request, response) => {
   let newTroll = {
     userHandle: request.user.handle,
     troll: request.body.troll,
+    imageUrl: request.user.imageUrl,
     createdAt: new Date().toISOString(),
+    likeCount: 0,
+    commentCount: 0,
   };
 
   db.collection("trolls")
     .add(newTroll)
     .then(doc => {
-      return response.json({
-        message: `document ${doc.id} created successfully`,
-      });
+      const resTroll = newTroll;
+      resTroll.trollId = doc.id;
+      return response.json(resTroll);
     })
     .catch(err => {
       console.error(err);
@@ -105,3 +108,52 @@ exports.commentOnTroll = (request, response) => {
       return response.status(500).json({ error: err.code });
     });
 };
+
+exports.likeTroll = (request, response) => {
+  let trollData;
+
+  db.doc(`trolls/${request.params.trollId}`)
+    .get()
+    .then(doc => {
+      if (!doc.exists)
+        return response.status(404).json({ error: "Troll not found" });
+
+      trollData = doc.data();
+      trollData.trollId = doc.id;
+
+      return db
+        .collection("likes")
+        .where("userHandle", "==", request.user.handle)
+        .where("trollId", "==", request.params.trollId)
+        .limit(1)
+        .get();
+    })
+    .then(data => {
+      if (!data.empty)
+        return response
+          .status(400)
+          .json({ message: "Troll have been liked before" });
+
+      return db
+        .collection("likes")
+        .add({
+          userHandle: request.user.handle,
+          trollId: request.params.trollId,
+        })
+        .then(() => {
+          trollData.likeCount++;
+          return db
+            .doc(`trolls/${request.params.trollId}`)
+            .update({ likeCount: trollData.likeCount });
+        })
+        .then(() => {
+          return response.json(trollData);
+        });
+    })
+    .catch(err => {
+      console.error(err);
+      return response.status(500).json({ error: err.code });
+    });
+};
+
+exports.unLikeTroll = (request, response) => {};

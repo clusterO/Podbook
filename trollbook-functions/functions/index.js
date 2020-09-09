@@ -33,7 +33,7 @@ app.post("/signup", signUp);
 app.post("/login", login);
 app.post("/user/image", FBAuth, uploadImage);
 app.post("/user", FBAuth, addUserDetails);
-app.post("/user", FBAuth, getAuthenticatedUser);
+app.get("/user", FBAuth, getAuthenticatedUser);
 
 exports.api = functions.https.onRequest(app);
 
@@ -45,11 +45,11 @@ exports.createNotificationOnLike = functions.firestore
       .then(doc => {
         if (doc.exists)
           return db
-            .doc(`/notifications/${snaposhot.id}`)
+            .doc(`/notifications/${snapshot.id}`)
             .set({
               createdAt: new Date().toISOString(),
               recipient: doc.data().userHandle,
-              sender: snaposhot.data().userHandle,
+              sender: snapshot.data().userHandle,
               trollId: doc.id,
               type: "like",
               read: false,
@@ -87,11 +87,11 @@ exports.createNotificationOnComment = functions.firestore
       .then(doc => {
         if (doc.exists)
           return db
-            .doc(`/notifications/${snaposhot.id}`)
+            .doc(`/notifications/${snapshot.id}`)
             .set({
               createdAt: new Date().toISOString(),
               recipient: doc.data().userHandle,
-              sender: snaposhot.data().userHandle,
+              sender: snapshot.data().userHandle,
               trollId: doc.id,
               type: "comment",
               read: false,

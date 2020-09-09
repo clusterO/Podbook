@@ -47,6 +47,8 @@ exports.addTroll = (request, response) => {
         .status(500)
         .json({ error: `something went south ${err}` });
     });
+
+  return;
 };
 
 exports.getTroll = (request, response) => {
@@ -80,6 +82,8 @@ exports.getTroll = (request, response) => {
       console.error(err);
       return response.status(500).json({ error: err.code });
     });
+
+  return;
 };
 
 exports.commentOnTroll = (request, response) => {
@@ -215,7 +219,7 @@ exports.deleteTroll = (request, response) => {
       else return db.doc(`/trolls/${request.params.trollId}`).delete();
     })
     .then(() => {
-      response.json({ message: "Troll deleted" });
+      return response.json({ message: "Troll deleted" });
     })
     .catch(err => {
       console.error(err);

@@ -1,6 +1,7 @@
 const functions = require("firebase-functions");
 const app = require("express")();
 const FBAuth = require("./util/fbAuth");
+const { db } = require("./util/admin");
 const {
   getAllTrolls,
   addTroll,
@@ -35,3 +36,30 @@ app.post("/user", FBAuth, addUserDetails);
 app.post("/user", FBAuth, getAuthenticatedUser);
 
 exports.api = functions.https.onRequest(app);
+
+exports.createNotificationOnLike = functions.firestore
+  .document("likes/{id}")
+  .onCreate(snapshot => {
+    db.doc(`/trolls/${snapshot.data().trollId}`)
+      .get()
+      .then(doc => {
+        if (doc.exists)
+          return db
+            .doc(`/notifications/${snaposhot.id}`)
+            .set({
+              createdAt: new Date().toISOString(),
+              recipient: doc.data().userHandle,
+              sender: snaposhot.data().userHandle,
+              trollId: doc.id,
+              type: "like",
+              read: false,
+            })
+            .then(() => {
+              return;
+            });
+      })
+      .catch(err => {
+        console.error(err);
+        return;
+      });
+  });

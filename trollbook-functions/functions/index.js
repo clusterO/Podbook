@@ -63,3 +63,30 @@ exports.createNotificationOnLike = functions.firestore
         return;
       });
   });
+
+exports.createNotificationOnComment = functions.firestore
+  .document("comments/{id}")
+  .onCreate(snapshot => {
+    db.doc(`/trolls/${snapshot.data().trollId}`)
+      .get()
+      .then(doc => {
+        if (doc.exists)
+          return db
+            .doc(`/notifications/${snaposhot.id}`)
+            .set({
+              createdAt: new Date().toISOString(),
+              recipient: doc.data().userHandle,
+              sender: snaposhot.data().userHandle,
+              trollId: doc.id,
+              type: "comment",
+              read: false,
+            })
+            .then(() => {
+              return;
+            });
+      })
+      .catch(err => {
+        console.error(err);
+        return;
+      });
+  });

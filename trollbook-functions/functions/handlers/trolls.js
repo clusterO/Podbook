@@ -100,6 +100,9 @@ exports.commentOnTroll = (request, response) => {
       if (!doc.exists)
         return response.status(404).json({ error: "Troll not found" });
 
+      return doc.ref.update({ commentCount: doc.data().commentCount + 1 });
+    })
+    .then(() => {
       return db.collection("comments").add(newComment);
     })
     .then(() => response.json(newComment))
@@ -156,4 +159,66 @@ exports.likeTroll = (request, response) => {
     });
 };
 
-exports.unLikeTroll = (request, response) => {};
+exports.unLikeTroll = (request, response) => {
+  let trollData;
+
+  db.doc(`trolls/${request.params.trollId}`)
+    .get()
+    .then(doc => {
+      if (!doc.exists)
+        return response.status(404).json({ error: "Troll not found" });
+
+      trollData = doc.data();
+      trollData.trollId = doc.id;
+
+      return db
+        .collection("likes")
+        .where("userHandle", "==", request.user.handle)
+        .where("trollId", "==", request.params.trollId)
+        .limit(1)
+        .get();
+    })
+    .then(data => {
+      if (data.empty)
+        return response
+          .status(400)
+          .json({ message: "Troll haven't been liked yet" });
+
+      return db
+        .doc(`/likes/${data.docs[0].id}`)
+        .delete()
+        .then(() => {
+          trollData.likeCount--;
+          return db
+            .doc(`trolls/${request.params.trollId}`)
+            .update({ likeCount: trollData.likeCount });
+        })
+        .then(() => {
+          return response.json(trollData);
+        });
+    })
+    .catch(err => {
+      console.error(err);
+      return response.status(500).json({ error: err.code });
+    });
+};
+
+exports.deleteTroll = (request, response) => {
+  db.doc(`/trolls/${request.params.trollId}`)
+    .get()
+    .then(doc => {
+      if (!doc.exists)
+        return response.status(404).json({ error: "Troll not found" });
+
+      if (doc.data().userHandle !== request.user.handle)
+        return response.status(403).json({ error: "Unauthorized " });
+      else return db.doc(`/trolls/${request.params.trollId}`).delete();
+    })
+    .then(() => {
+      response.json({ message: "Troll deleted" });
+    })
+    .catch(err => {
+      console.error(err);
+      return response.status(500).json({ error: err.code });
+    });
+};

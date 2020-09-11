@@ -57,6 +57,7 @@ exports.createNotificationOnLike = functions.firestore
             type: "like",
             read: false,
           });
+        else return;
       })
       .catch(err => {
         console.error(err);
@@ -90,8 +91,30 @@ exports.createNotificationOnComment = functions.firestore
             type: "comment",
             read: false,
           });
+        else return;
       })
       .catch(err => {
         console.error(err);
       });
+  });
+
+exports.onUserImageChange = functions.firestore
+  .document(`/users/{userId}`)
+  .onUpdate(change => {
+    if (change.before.data().imageUrl !== change.after.data().imageUrl) {
+      let batch = db.batch();
+      return db
+        .collection("trolls")
+        .where("userHandle", "==", change.before.data().handle)
+        .get()
+        .then(data => {
+          data.forEach(doc => {
+            const troll = db.doc(`/trolls/${doc.id}`);
+            batch.update(troll, {
+              imageUrl: change.after.data().imageUrl,
+            });
+          });
+          return batch.commit();
+        });
+    }
   });

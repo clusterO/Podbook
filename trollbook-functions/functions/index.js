@@ -118,3 +118,39 @@ exports.onUserImageChange = functions.firestore
         });
     }
   });
+
+exports.onDeleteTroll = functions.firestore
+  .document(`/trolls/{id}`)
+  .onDelete((snapshot, context) => {
+    const trollId = context.params.id;
+    const batch = db.batch();
+
+    return db
+      .collection("comments")
+      .where("trollId", "==", trollId)
+      .get()
+      .then(data => {
+        data.forEach(doc => {
+          batch.delete(db.doc(`/comments/${doc.id}`));
+        });
+        return db.collection("likes").where("trollId", "==", trollId).get();
+      })
+      .then(data => {
+        data.forEach(doc => {
+          batch.delete(db.doc(`/likes/${doc.id}`));
+        });
+        return db
+          .collection("notifications")
+          .where("trollId", "==", trollId)
+          .get();
+      })
+      .then(data => {
+        data.forEach(doc => {
+          batch.delete(db.doc(`/notifications/${doc.id}`));
+        });
+        return batch.commit();
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  });

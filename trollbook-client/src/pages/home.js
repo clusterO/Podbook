@@ -19,7 +19,9 @@ export default class Home extends Component {
 
   render() {
     const trollsMarkUp = this.state.trolls ? (
-      this.state.trolls.map(troll => <Troll troll={troll} />)
+      this.state.trolls.map(troll => (
+        <Troll key={troll.trollId} troll={troll} />
+      ))
     ) : (
       <p>Loadin ...</p>
     );

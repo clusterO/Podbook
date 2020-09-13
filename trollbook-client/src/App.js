@@ -7,47 +7,21 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/home";
 import Login from "./pages/login";
 import Signup from "./pages/signup";
+import themeConfig from "./util/theme";
+import jwtDecode from "jwt-decode";
+import AuthRoute from "./util/AuthRoute";
 
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      light: "#e1bee7",
-      main: "#9c27b0",
-      dark: "#6a1b9a",
-      contrastText: "#fff",
-    },
-    secondary: {
-      light: "#d1c4e9",
-      main: "#673ab7",
-      dark: "#4527a0",
-      contrastText: "#fff",
-    },
-  },
-  forms: {
-    form: {
-      textAlign: "center",
-    },
-    image: {
-      width: "50px",
-      height: "50px",
-    },
-    pageTitle: {
-      margin: "10px auto 10px auto",
-    },
-    button: {
-      margin: "20px auto 20px auto",
-      position: "relative",
-    },
-    customError: {
-      color: "red",
-      fontSize: "0.8rem",
-      marginTop: 10,
-    },
-    progress: {
-      position: "absolute",
-    },
-  },
-});
+const theme = createMuiTheme(themeConfig);
+const token = localStorage.FBIdToken;
+
+let authenticated;
+if (token) {
+  const decodedToken = jwtDecode(token);
+  if (decodedToken.exp * 1000 < Date.now()) {
+    window.location.href = "/login";
+    authenticated = false;
+  } else authenticated = true;
+}
 
 export default class App extends Component {
   render() {
@@ -59,8 +33,18 @@ export default class App extends Component {
             <div className="container">
               <Switch>
                 <Route exact path="/" component={Home} />
-                <Route exact path="/login" component={Login} />
-                <Route exact path="/signup" component={Signup} />
+                <AuthRoute
+                  exact
+                  path="/login"
+                  component={Login}
+                  authenticated={authenticated}
+                />
+                <AuthRoute
+                  exact
+                  path="/signup"
+                  component={Signup}
+                  authenticated={authenticated}
+                />
               </Switch>
             </div>
           </Router>

@@ -10,6 +10,8 @@ import Signup from "./pages/signup";
 import themeConfig from "./util/theme";
 import jwtDecode from "jwt-decode";
 import AuthRoute from "./util/AuthRoute";
+import { Provider } from "react-redux";
+import store from "./redux/store";
 
 const theme = createMuiTheme(themeConfig);
 const token = localStorage.FBIdToken;
@@ -27,7 +29,7 @@ export default class App extends Component {
   render() {
     return (
       <MuiThemeProvider theme={theme}>
-        <div className="App">
+        <Provider store={store}>
           <Router>
             <Navbar />
             <div className="container">
@@ -48,7 +50,7 @@ export default class App extends Component {
               </Switch>
             </div>
           </Router>
-        </div>
+        </Provider>
       </MuiThemeProvider>
     );
   }

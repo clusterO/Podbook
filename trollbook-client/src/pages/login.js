@@ -12,31 +12,9 @@ import {
 import AppIcon from "../assets/images/troll.ico";
 import axios from "axios";
 
-const styles = {
-  form: {
-    textAlign: "center",
-  },
-  image: {
-    width: "50px",
-    height: "50px",
-  },
-  pageTitle: {
-    margin: "10px auto 10px auto",
-  },
-  textField: {},
-  button: {
-    margin: "20px auto 20px auto",
-    position: "relative",
-  },
-  customError: {
-    color: "red",
-    fontSize: "0.8rem",
-    marginTop: 10,
-  },
-  progress: {
-    position: "absolute",
-  },
-};
+const styles = theme => ({
+  ...theme.forms,
+});
 
 class Login extends Component {
   constructor() {
@@ -64,7 +42,7 @@ class Login extends Component {
     axios
       .post("/login", userData)
       .then(result => {
-        console.log(result.data);
+        localStorage.setItem("FBIdToken", `Bearer ${result.data.token}`);
         this.setState({
           loading: false,
         });
@@ -98,7 +76,7 @@ class Login extends Component {
               id="email"
               name="email"
               type="email"
-              label="email"
+              label="Email"
               className={classes.textField}
               helperText={errors.email}
               error={errors.email ? true : false}
@@ -110,7 +88,7 @@ class Login extends Component {
               id="password"
               name="password"
               type="password"
-              label="password"
+              label="Password"
               className={classes.textField}
               helperText={errors.password}
               error={errors.password ? true : false}

@@ -10,7 +10,8 @@ import {
   CircularProgress,
 } from "@material-ui/core";
 import AppIcon from "../assets/images/troll.ico";
-import axios from "axios";
+import { connect } from "react-redux";
+import { userLogin } from "../redux/actions/userActions";
 
 const styles = theme => ({
   ...theme.forms,
@@ -22,38 +23,23 @@ class Login extends Component {
     this.state = {
       email: "",
       password: "",
-      loading: false,
       errors: {},
     };
   }
 
+  componentWillReceiveProps(nextProp) {
+    if (nextProp.ui.errors) this.setState({ errors: nextProp.ui.errors });
+  }
+
   handleSubmit = event => {
     event.preventDefault();
-
-    this.setState({
-      loading: true,
-    });
 
     const userData = {
       email: this.state.email,
       password: this.state.password,
     };
 
-    axios
-      .post("/login", userData)
-      .then(result => {
-        localStorage.setItem("FBIdToken", `Bearer ${result.data.token}`);
-        this.setState({
-          loading: false,
-        });
-        this.props.history.push("/");
-      })
-      .catch(err => {
-        this.setState({
-          errors: err.response.data,
-          loading: false,
-        });
-      });
+    this.props.userLogin(userData, this.props.history);
   };
 
   handleChange = event => {
@@ -63,8 +49,11 @@ class Login extends Component {
   };
 
   render() {
-    const { classes } = this.props;
-    const { errors, loading } = this.state;
+    const {
+      classes,
+      ui: { loading },
+    } = this.props;
+    const { errors } = this.state;
 
     return (
       <Grid container className={classes.form}>
@@ -126,6 +115,21 @@ class Login extends Component {
 
 Login.propTypes = {
   classes: PropTypes.object.isRequired,
+  userLogin: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  ui: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Login);
+const mapStateToProps = state => ({
+  user: state.user,
+  ui: state.user,
+});
+
+const mapDispatchToProps = {
+  userLogin,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(Login));

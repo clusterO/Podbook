@@ -122,7 +122,7 @@ Login.propTypes = {
 
 const mapStateToProps = state => ({
   user: state.user,
-  ui: state.user,
+  ui: state.ui,
 });
 
 const mapDispatchToProps = {

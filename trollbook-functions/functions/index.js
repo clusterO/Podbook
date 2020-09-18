@@ -116,7 +116,7 @@ exports.onUserImageChange = functions.firestore
           });
           return batch.commit();
         });
-    }
+    } else return;
   });
 
 exports.onDeleteTroll = functions.firestore

@@ -2,27 +2,19 @@ import React, { Component } from "react";
 import { Grid } from "@material-ui/core";
 import Troll from "../components/Troll";
 import Profile from "../components/Profile";
-import axios from "axios";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { getTrolls } from "../redux/actions/dataActions";
 
-export default class Home extends Component {
-  state = {
-    trolls: null,
-  };
-
+class Home extends Component {
   componentDidMount() {
-    axios
-      .get("/trolls")
-      .then(result => {
-        this.setState({ trolls: result.data });
-      })
-      .catch(err => console.error(err));
+    this.props.getTrolls();
   }
 
   render() {
-    const trollsMarkUp = this.state.trolls ? (
-      this.state.trolls.map(troll => (
-        <Troll key={troll.trollId} troll={troll} />
-      ))
+    const { trolls, loading } = this.props.data;
+    const trollsMarkUp = !loading ? (
+      trolls.map(troll => <Troll key={troll.trollId} troll={troll} />)
     ) : (
       <p>Loadin ...</p>
     );
@@ -38,3 +30,18 @@ export default class Home extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  data: state.data,
+});
+
+const mapDispatchToProps = {
+  getTrolls,
+};
+
+Home.propTypes = {
+  getTrolls: PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

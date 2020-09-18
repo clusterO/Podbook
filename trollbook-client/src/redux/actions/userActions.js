@@ -4,6 +4,7 @@ import {
   LOADING_UI,
   SET_UNAUTHENTICATED,
   SET_ERRORS,
+  LOADING_USER,
 } from "../types";
 import axios from "axios";
 
@@ -51,12 +52,13 @@ export const userSignup = (newUserData, history) => dispatch => {
 };
 
 export const getUserData = () => dispatch => {
+  dispatch({ type: LOADING_USER });
   axios
     .get("/user")
     .then(result => {
       dispatch({
         type: SET_USER,
-        payload: result.data,
+        payload: result.data.userData,
       });
     })
     .catch(err => {

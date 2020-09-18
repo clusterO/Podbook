@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Grid } from "@material-ui/core";
 import Troll from "../components/Troll";
+import Profile from "../components/Profile";
 import axios from "axios";
 
 export default class Home extends Component {
@@ -31,7 +32,7 @@ export default class Home extends Component {
           {trollsMarkUp}
         </Grid>
         <Grid item sm={4} xs={12}>
-          <p>content ...</p>
+          <Profile />
         </Grid>
       </Grid>
     );

@@ -14,11 +14,13 @@ import {
   Link as LinkIcon,
   CalendarToday,
   Edit as EditIcon,
+  KeyboardReturn,
 } from "@material-ui/icons";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import { uploadImage, userLogout } from "../redux/actions/userActions";
+import EditDetails from "./EditDetails";
 
 const styles = theme => ({
   paper: {
@@ -85,6 +87,10 @@ class Profile extends Component {
     this.imageInputRef.current.click();
   };
 
+  handleLogout = () => {
+    this.props.userLogout();
+  };
+
   render() {
     const {
       classes,
@@ -145,6 +151,12 @@ class Profile extends Component {
               <CalendarToday color="primary" />{" "}
               <span>Joined {dayjs(createdAt).format("MMM YYYY")} </span>
             </div>
+            <Tooltip title="Logout" placement="top">
+              <IconButton onClick={this.handleLogout}>
+                <KeyboardReturn color="secondary" />
+              </IconButton>
+            </Tooltip>
+            <EditDetails />
           </div>
         </Paper>
       ) : (

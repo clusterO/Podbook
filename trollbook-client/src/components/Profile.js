@@ -1,14 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import {
-  Button,
-  Typography,
-  Link as MuiLink,
-  Paper,
-  IconButton,
-  Tooltip,
-} from "@material-ui/core";
+import { Button, Typography, Link as MuiLink, Paper } from "@material-ui/core";
 import {
   LocationOn,
   Link as LinkIcon,
@@ -21,6 +14,7 @@ import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import { uploadImage, userLogout } from "../redux/actions/userActions";
 import EditDetails from "./EditDetails";
+import MyButton from "../util/MyButton";
 
 const styles = theme => ({
   paper: {
@@ -113,11 +107,13 @@ class Profile extends Component {
                 ref={this.imageInputRef}
                 onChange={this.handleImageChange}
               />
-              <Tooltip title="Edit profile picture" placement="top">
-                <IconButton onClick={this.handleEditImage} className="button">
-                  <EditIcon color="secondary" />
-                </IconButton>
-              </Tooltip>
+              <MyButton
+                tip="Edit profile picture"
+                onClick={this.handleEditImage}
+                btnClassName="button"
+              >
+                <EditIcon color="secondary" />
+              </MyButton>
             </div>
             <hr />
             <div className="profile-detail">
@@ -151,11 +147,9 @@ class Profile extends Component {
               <CalendarToday color="primary" />{" "}
               <span>Joined {dayjs(createdAt).format("MMM YYYY")} </span>
             </div>
-            <Tooltip title="Logout" placement="top">
-              <IconButton onClick={this.handleLogout}>
-                <KeyboardReturn color="secondary" />
-              </IconButton>
-            </Tooltip>
+            <MyButton tip="Logout" onClick={this.handleLogout}>
+              <KeyboardReturn color="secondary" />
+            </MyButton>
             <EditDetails />
           </div>
         </Paper>

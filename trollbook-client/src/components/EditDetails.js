@@ -4,16 +4,15 @@ import { withStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
 import { editUserDetails } from "../redux/actions/userActions";
 import {
-  Tooltip,
   Button,
   TextField,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  IconButton,
 } from "@material-ui/core";
 import { Edit as EditIcon } from "@material-ui/icons";
+import MyButton from "../util/MyButton";
 
 const styles = theme => ({
   ...theme.forms,
@@ -73,11 +72,13 @@ class EditDetails extends Component {
     const { classes } = this.props;
     return (
       <>
-        <Tooltip title="Edit details" placement="top">
-          <IconButton onClick={this.handleOpen} className={classes.button}>
-            <EditIcon color="secondary" />
-          </IconButton>
-        </Tooltip>
+        <MyButton
+          tip="Edit details"
+          onClick={this.handleOpen}
+          btnClassName={classes.button}
+        >
+          <EditIcon color="secondary" />
+        </MyButton>
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}

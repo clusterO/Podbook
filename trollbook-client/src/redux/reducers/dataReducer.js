@@ -1,4 +1,10 @@
-import { SET_TROLLS, LIKE_TROLL, UNLIKE_TROLL, LOADING_DATA } from "../types";
+import {
+  SET_TROLLS,
+  LIKE_TROLL,
+  UNLIKE_TROLL,
+  LOADING_DATA,
+  DELETE_TROLL,
+} from "../types";
 
 const initialState = {
   trolls: [],
@@ -25,6 +31,14 @@ export default function (state = initialState, action) {
         troll => troll.trollId === action.payload.trollId
       );
       state.trolls[index] = action.payload;
+      return {
+        ...state,
+      };
+    case DELETE_TROLL:
+      let trollIndex = state.trolls.findIndex(
+        troll => troll.trollId === action.payload
+      );
+      state.trolls.splice(trollIndex, 1);
       return {
         ...state,
       };

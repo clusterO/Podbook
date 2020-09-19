@@ -1,4 +1,10 @@
-import { SET_TROLLS, LOADING_DATA, LIKE_TROLL, UNLIKE_TROLL } from "../types";
+import {
+  SET_TROLLS,
+  LOADING_DATA,
+  LIKE_TROLL,
+  UNLIKE_TROLL,
+  DELETE_TROLL,
+} from "../types";
 import axios from "axios";
 
 export const getTrolls = () => dispatch => {
@@ -38,6 +44,18 @@ export const unlikeTroll = trollId => dispatch => {
       dispatch({
         type: UNLIKE_TROLL,
         payload: result.data,
+      });
+    })
+    .catch(err => console.error(err));
+};
+
+export const deleteTroll = trollId => dispatch => {
+  axios
+    .delete(`/troll/${trollId}`)
+    .then(() => {
+      dispatch({
+        type: DELETE_TROLL,
+        payload: trollId,
       });
     })
     .catch(err => console.error(err));

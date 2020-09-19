@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { likeTroll, unlikeTroll } from "../redux/actions/dataActions";
 import MyButton from "../util/MyButton";
+import DeleteTroll from "./DeleteTroll";
 import {
   Chat as ChatIcon,
   Favorite as FavoriteIcon,
@@ -16,6 +17,7 @@ import {
 
 const styles = {
   card: {
+    position: "relative",
     display: "flex",
     marginBottom: 20,
   },
@@ -84,6 +86,11 @@ class Troll extends Component {
       </MyButton>
     );
 
+    const deleteButton =
+      authenticated && userHandle === handle ? (
+        <DeleteTroll trollId={trollId} />
+      ) : null;
+
     return (
       <Card className={classes.card}>
         <CardMedia
@@ -100,6 +107,7 @@ class Troll extends Component {
           >
             {userHandle}
           </Typography>
+          {deleteButton}
           <Typography variant="body2" color="textSecondary">
             {dayjs(createdAt).fromNow()}
           </Typography>

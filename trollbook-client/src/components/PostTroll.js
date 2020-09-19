@@ -3,7 +3,7 @@ import { withStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import MyButton from "../util/MyButton";
-import { postTroll } from "../redux/actions/dataActions";
+import { postTroll, clearErrors } from "../redux/actions/dataActions";
 import {
   Button,
   Dialog,
@@ -21,12 +21,13 @@ const styles = theme => ({
   },
   closeButton: {
     position: "absolute",
-    left: "90%",
-    top: "10%",
+    left: "91%",
+    top: "4%",
   },
   submitButton: {
     position: "relative",
     marginTop: "10px",
+    float: "right",
   },
   progressSpiner: {
     position: "absolute",
@@ -42,7 +43,8 @@ class PostTroll extends Component {
 
   componentWillReceiveProps(nextProp) {
     if (nextProp.ui.errors) this.setState({ errors: nextProp.ui.errors });
-    if (!nextProp.ui.errors && !nextProp.ui.loading) this.handleClose();
+    if (!nextProp.ui.errors && !nextProp.ui.loading)
+      this.setState({ open: false, body: "", errors: {} });
   }
 
   handleOpen = () => {
@@ -50,12 +52,12 @@ class PostTroll extends Component {
   };
 
   handleClose = () => {
-    this.setState({ open: false, body: "", errors: {} });
+    this.setState({ open: false, errors: {} });
+    this.props.clearErrors();
   };
 
   handleSubmit = event => {
     event.preventDefault();
-    console.log(this.state.body);
     this.props.postTroll({ troll: this.state.body });
   };
 
@@ -133,10 +135,12 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   postTroll,
+  clearErrors,
 };
 
 PostTroll.propTypes = {
   postTroll: PropTypes.func.isRequired,
+  clearErrors: PropTypes.func.isRequired,
   ui: PropTypes.object.isRequired,
 };
 

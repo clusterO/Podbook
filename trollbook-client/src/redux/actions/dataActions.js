@@ -83,3 +83,7 @@ export const postTroll = troll => dispatch => {
       });
     });
 };
+
+export const clearErrors = () => dispatch => {
+  dispatch({ type: CLEAR_ERRORS });
+};

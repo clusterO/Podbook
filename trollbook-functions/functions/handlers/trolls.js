@@ -31,7 +31,7 @@ exports.addTroll = (request, response) => {
   let newTroll = {
     userHandle: request.user.handle,
     troll: request.body.troll,
-    imageUrl: request.user.imageUrl,
+    userImage: request.user.imageUrl,
     createdAt: new Date().toISOString(),
     likeCount: 0,
     commentCount: 0,

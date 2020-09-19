@@ -7,14 +7,18 @@ import { Link } from "react-router-dom";
 import {
   Dialog,
   DialogContent,
-  DialogTitle,
   CircularProgress,
   Grid,
   Typography,
 } from "@material-ui/core";
-import { Close as CloseIcon, UnfoldMore } from "@material-ui/icons";
+import {
+  Close as CloseIcon,
+  UnfoldMore,
+  Chat as ChatIcon,
+} from "@material-ui/icons";
 import { connect } from "react-redux";
 import { getTroll } from "../redux/actions/dataActions";
+import LikeButton from "./LikeButton";
 
 const styles = theme => ({
   ...theme.forms,
@@ -33,7 +37,17 @@ const styles = theme => ({
   },
   closeButton: {
     position: "absolute",
+    top: "4%",
     left: "90%",
+  },
+  expandButton: {
+    position: "absolute",
+    left: "90%",
+  },
+  spinnerDiv: {
+    textAlign: "center",
+    marginTop: 50,
+    marginBottom: 50,
   },
 });
 
@@ -67,7 +81,9 @@ class TrollDialog extends Component {
     } = this.props;
 
     const dialogMarkUp = loading ? (
-      <CircularProgress size={120} />
+      <div className={classes.spinnerDiv}>
+        <CircularProgress size={120} thickness={2} />
+      </div>
     ) : (
       <Grid container spacing={16}>
         <Grid item sm={5}>
@@ -88,6 +104,12 @@ class TrollDialog extends Component {
           </Typography>
           <hr className={classes.invisibleSeparator} />
           <Typography variant="body1">{troll}</Typography>
+          <LikeButton trollId={trollId} />
+          <span>{likeCount} Likes</span>
+          <MyButton tip="Comments">
+            <ChatIcon color="primary" />
+          </MyButton>
+          <span>{commentCount} Comments</span>
         </Grid>
       </Grid>
     );

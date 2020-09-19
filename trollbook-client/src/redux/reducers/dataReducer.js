@@ -38,6 +38,8 @@ export default function (state = initialState, action) {
         troll => troll.trollId === action.payload.trollId
       );
       state.trolls[index] = action.payload;
+      if (state.troll.trollId === action.payload.trollId)
+        state.troll = action.payload;
       return {
         ...state,
       };

@@ -6,15 +6,11 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { likeTroll, unlikeTroll } from "../redux/actions/dataActions";
 import MyButton from "../util/MyButton";
 import DeleteTroll from "./DeleteTroll";
 import TrollDialog from "./TrollDialog";
-import {
-  Chat as ChatIcon,
-  Favorite as FavoriteIcon,
-  FavoriteBorder,
-} from "@material-ui/icons";
+import LikeButton from "./LikeButton";
+import { Chat as ChatIcon } from "@material-ui/icons";
 
 const styles = {
   card: {
@@ -32,26 +28,6 @@ const styles = {
 };
 
 class Troll extends Component {
-  likedTroll = () => {
-    if (
-      this.props.user.likes &&
-      this.props.user.likes.find(
-        like => like.trollId === this.props.troll.trollId
-      )
-    )
-      return true;
-
-    return false;
-  };
-
-  handleLikeTroll = () => {
-    this.props.likeTroll(this.props.troll.trollId);
-  };
-
-  handleUnlikeToll = () => {
-    this.props.unlikeTroll(this.props.troll.trollId);
-  };
-
   render() {
     dayjs.extend(relativeTime);
     const {
@@ -70,22 +46,6 @@ class Troll extends Component {
         credentials: { handle },
       },
     } = this.props;
-
-    const likeButton = !authenticated ? (
-      <MyButton tip="Like">
-        <Link to="login">
-          <FavoriteBorder color="primary" />
-        </Link>
-      </MyButton>
-    ) : this.likedTroll() ? (
-      <MyButton tip="Undo like" onClick={this.handleUnlikeToll}>
-        <FavoriteIcon color="primary" />
-      </MyButton>
-    ) : (
-      <MyButton tip="Like" onClick={this.handleLikeTroll}>
-        <FavoriteBorder color="primary" />
-      </MyButton>
-    );
 
     const deleteButton =
       authenticated && userHandle === handle ? (
@@ -113,7 +73,7 @@ class Troll extends Component {
             {dayjs(createdAt).fromNow()}
           </Typography>
           <Typography variant="body1">{troll}</Typography>
-          {likeButton}
+          <LikeButton trollId={trollId} />
           <span>{likeCount} Likes</span>
           <MyButton tip="Comments">
             <ChatIcon color="primary" />
@@ -130,20 +90,10 @@ const mapStateToProps = state => ({
   user: state.user,
 });
 
-const mapDispatchToProps = {
-  likeTroll,
-  unlikeTroll,
-};
-
 Troll.propTypes = {
-  likeTroll: PropTypes.func.isRequired,
-  unlikeTroll: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
   troll: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withStyles(styles)(Troll));
+export default connect(mapStateToProps)(withStyles(styles)(Troll));

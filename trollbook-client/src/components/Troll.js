@@ -9,6 +9,7 @@ import PropTypes from "prop-types";
 import { likeTroll, unlikeTroll } from "../redux/actions/dataActions";
 import MyButton from "../util/MyButton";
 import DeleteTroll from "./DeleteTroll";
+import TrollDialog from "./TrollDialog";
 import {
   Chat as ChatIcon,
   Favorite as FavoriteIcon,
@@ -118,6 +119,7 @@ class Troll extends Component {
             <ChatIcon color="primary" />
           </MyButton>
           <span>{commentCount} Comments</span>
+          <TrollDialog trollId={trollId} userHandle={userHandle} />
         </CardContent>
       </Card>
     );

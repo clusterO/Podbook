@@ -1,5 +1,6 @@
 import {
   SET_TROLLS,
+  SET_TROLL,
   LIKE_TROLL,
   UNLIKE_TROLL,
   LOADING_DATA,
@@ -25,6 +26,11 @@ export default function (state = initialState, action) {
         ...state,
         trolls: action.payload,
         loading: false,
+      };
+    case SET_TROLL:
+      return {
+        ...state,
+        troll: action.payload,
       };
     case LIKE_TROLL:
     case UNLIKE_TROLL:

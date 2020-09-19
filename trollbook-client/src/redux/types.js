@@ -12,3 +12,4 @@ export const LIKE_TROLL = "LIKE_TROLL";
 export const UNLIKE_TROLL = "UNLIKE_TROLL";
 export const DELETE_TROLL = "DELETE_TROLL";
 export const POST_TROLL = "POST_TROLL";
+export const STOP_LOADING_UI = "STOP_LOADING_UI";

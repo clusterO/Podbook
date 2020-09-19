@@ -8,6 +8,8 @@ import {
   LOADING_UI,
   SET_ERRORS,
   CLEAR_ERRORS,
+  SET_TROLL,
+  STOP_LOADING_UI,
 } from "../types";
 import axios from "axios";
 
@@ -86,4 +88,18 @@ export const postTroll = troll => dispatch => {
 
 export const clearErrors = () => dispatch => {
   dispatch({ type: CLEAR_ERRORS });
+};
+
+export const getTroll = trollId => dispatch => {
+  dispatch({ type: LOADING_UI });
+  axios
+    .get(`/troll/${trollId}`)
+    .then(result => {
+      dispatch({
+        type: SET_TROLL,
+        payload: result.data,
+      });
+      dispatch({ type: STOP_LOADING_UI });
+    })
+    .catch(err => console.error(err));
 };

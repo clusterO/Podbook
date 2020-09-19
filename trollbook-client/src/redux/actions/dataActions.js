@@ -4,6 +4,10 @@ import {
   LIKE_TROLL,
   UNLIKE_TROLL,
   DELETE_TROLL,
+  POST_TROLL,
+  LOADING_UI,
+  SET_ERRORS,
+  CLEAR_ERRORS,
 } from "../types";
 import axios from "axios";
 
@@ -59,4 +63,23 @@ export const deleteTroll = trollId => dispatch => {
       });
     })
     .catch(err => console.error(err));
+};
+
+export const postTroll = troll => dispatch => {
+  dispatch({ type: LOADING_UI });
+  axios
+    .post("/troll", troll)
+    .then(result => {
+      dispatch({
+        type: POST_TROLL,
+        payload: result.data,
+      });
+      dispatch({ type: CLEAR_ERRORS });
+    })
+    .catch(err => {
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data,
+      });
+    });
 };

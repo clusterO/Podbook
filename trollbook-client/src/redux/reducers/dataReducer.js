@@ -4,6 +4,7 @@ import {
   UNLIKE_TROLL,
   LOADING_DATA,
   DELETE_TROLL,
+  POST_TROLL,
 } from "../types";
 
 const initialState = {
@@ -41,6 +42,11 @@ export default function (state = initialState, action) {
       state.trolls.splice(trollIndex, 1);
       return {
         ...state,
+      };
+    case POST_TROLL:
+      return {
+        ...state,
+        trolls: [action.payload, ...state.trolls],
       };
     default:
       return state;

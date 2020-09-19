@@ -3,13 +3,10 @@ import { Link } from "react-router-dom";
 import { Toolbar, Button, AppBar } from "@material-ui/core";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import {
-  Add as AddIcon,
-  Home as HomeIcon,
-  Notifications,
-} from "@material-ui/icons";
+import { Home as HomeIcon, Notifications } from "@material-ui/icons";
 import MyButton from "../util/MyButton";
 import { withStyles } from "@material-ui/core/styles";
+import PostTroll from "./PostTroll";
 
 const styles = theme => ({
   ...theme.forms,
@@ -26,9 +23,7 @@ class Navbar extends Component {
         <Toolbar className="nav-container">
           {authenticated ? (
             <>
-              <MyButton tip="New troll">
-                <AddIcon className={classes.icons} />
-              </MyButton>
+              <PostTroll />
               <Link to="/">
                 <MyButton tip="Home">
                   <HomeIcon className={classes.icons} />

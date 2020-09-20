@@ -52,14 +52,29 @@ const styles = theme => ({
 class TrollDialog extends Component {
   state = {
     open: false,
+    oldPath: "",
+    newPath: "",
   };
 
+  componentDidMount() {
+    if (this.props.openDialog) this.handleOpen();
+  }
+
   handleOpen = () => {
-    this.setState({ open: true });
+    let oldPath = window.location.pathname;
+    const { userHandle, trollId } = this.props;
+    const newPath = `/user/${userHandle}/troll/${trollId}`;
+
+    if (oldPath === newPath) oldPath = `/user/${userHandle}`;
+
+    window.history.pushState(null, null, newPath);
+
+    this.setState({ open: true, oldPath, newPath });
     this.props.getTroll(this.props.trollId);
   };
 
   handleClose = () => {
+    window.history.pushState(null, null, this.state.oldPath);
     this.setState({ open: false });
     this.props.clearErrors();
   };

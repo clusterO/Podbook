@@ -10,10 +10,15 @@ import StaticProfile from "../components/StaticProfile";
 class User extends Component {
   state = {
     profile: null,
+    trollId: null,
   };
 
   componentDidMount() {
     const handle = this.props.match.params.handle;
+    const trollId = this.props.match.params.trollId;
+
+    if (trollId) this.setState({ trollId });
+
     this.props.getUserData(handle);
     axios
       .get(`/user/${handle}`)
@@ -25,13 +30,20 @@ class User extends Component {
 
   render() {
     const { trolls, loading } = this.props.data;
+    const { trollId } = this.state;
 
     const trollsMarkUp = loading ? (
       <p>Loading data...</p>
     ) : trolls === null ? (
       <p>No trolls from this user</p>
-    ) : (
+    ) : !trollId ? (
       trolls.map(troll => <Troll key={troll.trollId} troll={troll} />)
+    ) : (
+      trolls.map(troll => {
+        if (troll.trollId !== trollId)
+          return <Troll key={troll.trollId} troll={troll} />;
+        else return <Troll key={troll.trollId} troll={troll} openDialog />;
+      })
     );
 
     return (

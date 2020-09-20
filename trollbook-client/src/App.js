@@ -47,6 +47,11 @@ export default class App extends Component {
                 <AuthRoute exact path="/login" component={Login} />
                 <AuthRoute exact path="/signup" component={Signup} />
                 <Route exact path="/user/:handle" component={User} />
+                <Route
+                  exact
+                  path="/user/:handle/troll/:trollId"
+                  component={User}
+                />
               </Switch>
             </div>
           </Router>

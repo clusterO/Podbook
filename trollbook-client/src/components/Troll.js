@@ -79,7 +79,11 @@ class Troll extends Component {
             <ChatIcon color="primary" />
           </MyButton>
           <span>{commentCount} Comments</span>
-          <TrollDialog trollId={trollId} userHandle={userHandle} />
+          <TrollDialog
+            trollId={trollId}
+            userHandle={userHandle}
+            openDialog={this.props.openDialog}
+          />
         </CardContent>
       </Card>
     );
@@ -94,6 +98,7 @@ Troll.propTypes = {
   user: PropTypes.object.isRequired,
   troll: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
+  openDialog: PropTypes.bool,
 };
 
 export default connect(mapStateToProps)(withStyles(styles)(Troll));

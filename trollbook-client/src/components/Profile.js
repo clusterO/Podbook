@@ -15,6 +15,7 @@ import dayjs from "dayjs";
 import { uploadImage, userLogout } from "../redux/actions/userActions";
 import EditDetails from "./EditDetails";
 import MyButton from "../util/MyButton";
+import ProfileSkelton from "../util/ProfileSkelton";
 
 const styles = theme => ({
   paper: {
@@ -179,7 +180,7 @@ class Profile extends Component {
         </Paper>
       )
     ) : (
-      <p>loading...</p>
+      <ProfileSkelton />
     );
 
     return profileMarkup;

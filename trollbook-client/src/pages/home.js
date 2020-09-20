@@ -5,6 +5,7 @@ import Profile from "../components/Profile";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { getTrolls } from "../redux/actions/dataActions";
+import TrollSkelton from "../util/TrollSkelton";
 
 class Home extends Component {
   componentDidMount() {
@@ -16,7 +17,7 @@ class Home extends Component {
     const trollsMarkUp = !loading ? (
       trolls.map(troll => <Troll key={troll.trollId} troll={troll} />)
     ) : (
-      <p>Loadin ...</p>
+      <TrollSkelton />
     );
     return (
       <Grid container spacing={6}>

@@ -6,6 +6,8 @@ import { Grid } from "@material-ui/core";
 import { connect } from "react-redux";
 import { getUserData } from "../redux/actions/dataActions";
 import StaticProfile from "../components/StaticProfile";
+import TrollSkelton from "../util/TrollSkelton";
+import ProfileSkelton from "../util/ProfileSkelton";
 
 class User extends Component {
   state = {
@@ -33,7 +35,7 @@ class User extends Component {
     const { trollId } = this.state;
 
     const trollsMarkUp = loading ? (
-      <p>Loading data...</p>
+      <TrollSkelton />
     ) : trolls === null ? (
       <p>No trolls from this user</p>
     ) : !trollId ? (
@@ -53,7 +55,7 @@ class User extends Component {
         </Grid>
         <Grid item sm={4} xs={12}>
           {this.state.profile === null ? (
-            <p>Loading profile...</p>
+            <ProfileSkelton />
           ) : (
             <StaticProfile profile={this.state.profile} />
           )}

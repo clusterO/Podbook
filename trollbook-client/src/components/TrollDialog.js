@@ -109,7 +109,7 @@ class TrollDialog extends Component {
           </MyButton>
           <span>{commentCount} Comments</span>
         </Grid>
-        <hr className={classes.invisibleSeparator} />
+        <hr className={classes.visibleSeparator} />
         <Comments comments={comments} />
       </Grid>
     );

@@ -15,7 +15,7 @@ import {
 import { Add as AddIcon, Close as CloseIcon } from "@material-ui/icons";
 
 const styles = theme => ({
-  ...theme.forms,
+  ...theme.styles,
   icons: {
     color: "#fff",
   },

@@ -19,13 +19,10 @@ import {
 import { connect } from "react-redux";
 import { getTroll } from "../redux/actions/dataActions";
 import LikeButton from "./LikeButton";
+import Comments from "./Comments";
 
 const styles = theme => ({
-  ...theme.forms,
-  invisibleSeparator: {
-    border: "none",
-    margin: 4,
-  },
+  ...theme.styles,
   profileImage: {
     maxWidth: 200,
     height: 200,
@@ -76,6 +73,7 @@ class TrollDialog extends Component {
         commentCount,
         userImage,
         userHandle,
+        comments,
       },
       ui: { loading },
     } = this.props;
@@ -111,6 +109,8 @@ class TrollDialog extends Component {
           </MyButton>
           <span>{commentCount} Comments</span>
         </Grid>
+        <hr className={classes.invisibleSeparator} />
+        <Comments comments={comments} />
       </Grid>
     );
 

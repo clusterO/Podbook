@@ -13,7 +13,7 @@ export default {
       contrastText: "#fff",
     },
   },
-  forms: {
+  styles: {
     form: {
       textAlign: "center",
     },
@@ -35,6 +35,15 @@ export default {
     },
     progress: {
       position: "absolute",
+    },
+    invisibleSeparator: {
+      border: "none",
+      margin: 4,
+    },
+    visibleSeparator: {
+      width: "100%",
+      borderBottom: "1px solid rgb(0,0,0,0.1)",
+      marginBottom: 20,
     },
   },
 };

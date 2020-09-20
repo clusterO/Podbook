@@ -15,7 +15,7 @@ import { Edit as EditIcon } from "@material-ui/icons";
 import MyButton from "../util/MyButton";
 
 const styles = theme => ({
-  ...theme.forms,
+  ...theme.styles,
   button: {
     float: "right",
   },

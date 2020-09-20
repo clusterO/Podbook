@@ -9,7 +9,7 @@ import { withStyles } from "@material-ui/core/styles";
 import PostTroll from "./PostTroll";
 
 const styles = theme => ({
-  ...theme.forms,
+  ...theme.styles,
   icons: {
     color: "#fff",
   },

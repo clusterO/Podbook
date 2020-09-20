@@ -3,10 +3,11 @@ import { Link } from "react-router-dom";
 import { Toolbar, Button, AppBar } from "@material-ui/core";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { Home as HomeIcon, Notifications } from "@material-ui/icons";
+import { Home as HomeIcon } from "@material-ui/icons";
 import MyButton from "../util/MyButton";
 import { withStyles } from "@material-ui/core/styles";
 import PostTroll from "./PostTroll";
+import Notifications from "./Notifications";
 
 const styles = theme => ({
   ...theme.styles,
@@ -29,9 +30,7 @@ class Navbar extends Component {
                   <HomeIcon className={classes.icons} />
                 </MyButton>
               </Link>
-              <MyButton tip="Notifications">
-                <Notifications className={classes.icons} />
-              </MyButton>
+              <Notifications className={classes.icons} />
             </>
           ) : (
             <>

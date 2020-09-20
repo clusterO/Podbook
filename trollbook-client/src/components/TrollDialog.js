@@ -92,7 +92,7 @@ class TrollDialog extends Component {
         <Grid item sm={7}>
           <Typography
             component={Link}
-            to={`/users/${userHandle}`}
+            to={`/user/${userHandle}`}
             color="primary"
             variant="h5"
           >

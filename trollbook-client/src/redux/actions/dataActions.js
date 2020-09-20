@@ -122,3 +122,21 @@ export const submitComment = (trollId, commentData) => dispatch => {
       });
     });
 };
+
+export const getUserData = userHandle => dispatch => {
+  dispatch({ type: LOADING_DATA });
+  axios
+    .get(`/user/${userHandle}`)
+    .then(result => {
+      dispatch({
+        type: SET_TROLLS,
+        payload: result.data.trolls,
+      });
+    })
+    .catch(() => {
+      dispatch({
+        type: SET_TROLLS,
+        payload: null,
+      });
+    });
+};

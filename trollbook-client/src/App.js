@@ -1,12 +1,15 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
-import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
-import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
+import {
+  ThemeProvider as MuiThemeProvider,
+  createMuiTheme,
+} from "@material-ui/core/styles";
 import Navbar from "./components/Navbar";
 import Home from "./pages/home";
 import Login from "./pages/login";
 import Signup from "./pages/signup";
+import User from "./pages/user";
 import themeConfig from "./util/theme";
 import jwtDecode from "jwt-decode";
 import AuthRoute from "./util/AuthRoute";
@@ -43,6 +46,7 @@ export default class App extends Component {
                 <Route exact path="/" component={Home} />
                 <AuthRoute exact path="/login" component={Login} />
                 <AuthRoute exact path="/signup" component={Signup} />
+                <Route exact path="/user/:handle" component={User} />
               </Switch>
             </div>
           </Router>

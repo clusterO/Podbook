@@ -17,9 +17,10 @@ import {
   Chat as ChatIcon,
 } from "@material-ui/icons";
 import { connect } from "react-redux";
-import { getTroll } from "../redux/actions/dataActions";
+import { getTroll, clearErrors } from "../redux/actions/dataActions";
 import LikeButton from "./LikeButton";
 import Comments from "./Comments";
+import CommentForm from "./CommentForm";
 
 const styles = theme => ({
   ...theme.styles,
@@ -60,6 +61,7 @@ class TrollDialog extends Component {
 
   handleClose = () => {
     this.setState({ open: false });
+    this.props.clearErrors();
   };
 
   render() {
@@ -110,6 +112,7 @@ class TrollDialog extends Component {
           <span>{commentCount} Comments</span>
         </Grid>
         <hr className={classes.visibleSeparator} />
+        <CommentForm trollId={trollId} />
         <Comments comments={comments} />
       </Grid>
     );
@@ -152,10 +155,12 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   getTroll,
+  clearErrors,
 };
 
 TrollDialog.propTypes = {
   getTroll: PropTypes.func.isRequired,
+  clearErrors: PropTypes.func.isRequired,
   trollId: PropTypes.string.isRequired,
   userHandle: PropTypes.string.isRequired,
   troll: PropTypes.object.isRequired,

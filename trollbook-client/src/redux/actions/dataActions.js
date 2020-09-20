@@ -10,6 +10,7 @@ import {
   CLEAR_ERRORS,
   SET_TROLL,
   STOP_LOADING_UI,
+  SUBMIT_COMMENT,
 } from "../types";
 import axios from "axios";
 
@@ -76,7 +77,7 @@ export const postTroll = troll => dispatch => {
         type: POST_TROLL,
         payload: result.data,
       });
-      dispatch({ type: CLEAR_ERRORS });
+      dispatch(clearErrors());
     })
     .catch(err => {
       dispatch({
@@ -102,4 +103,22 @@ export const getTroll = trollId => dispatch => {
       dispatch({ type: STOP_LOADING_UI });
     })
     .catch(err => console.error(err));
+};
+
+export const submitComment = (trollId, commentData) => dispatch => {
+  axios
+    .post(`/troll/${trollId}/comment`, commentData)
+    .then(result => {
+      dispatch({
+        type: SUBMIT_COMMENT,
+        payload: result.data,
+      });
+      dispatch(clearErrors());
+    })
+    .catch(err => {
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data,
+      });
+    });
 };

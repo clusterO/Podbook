@@ -20,6 +20,10 @@ import { SET_AUTHENTICATED } from "./redux/types";
 import axios from "axios";
 
 const theme = createMuiTheme(themeConfig);
+
+axios.defaults.baseURL =
+  "https://us-central1-trollbook-8d299.cloudfunctions.net/api";
+
 const token = localStorage.FBIdToken;
 
 if (token) {

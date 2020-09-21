@@ -20,6 +20,9 @@ const {
   getUserDetails,
   markNotificationsRead,
 } = require("./handlers/users");
+const cors = require("cors");
+
+app.use(cors());
 
 // troll routes
 app.get("/trolls", getAllTrolls);

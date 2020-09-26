@@ -40,5 +40,8 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://us-central1-trollbook-8d299.cloudfunctions.net/api"
+  "proxy": "https://us-central1-trollbook-8d299.cloudfunctions.net/api",
+  "devDependencies": {
+    "webpack-bundle-analyzer": "^3.9.0"
+  }
 }

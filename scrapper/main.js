@@ -1,3 +1,4 @@
+const functions = require("firebase-functions");
 const axios = require("axios");
 const cheerio = require("cheerio");
 
@@ -42,4 +43,8 @@ getData = async () => {
     });
 };
 
-getData();
+exports.scheduledNewPost = functions.pubsub
+  .schedule("every 24 hours")
+  .onRun(context => {
+    getData();
+  });

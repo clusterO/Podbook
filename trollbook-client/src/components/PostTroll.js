@@ -14,7 +14,7 @@ import {
 } from "@material-ui/core";
 import { Add as AddIcon, Close as CloseIcon } from "@material-ui/icons";
 
-const styles = theme => ({
+const styles = (theme) => ({
   ...theme.styles,
   icons: {
     color: "#fff",
@@ -56,12 +56,12 @@ class PostTroll extends Component {
     this.props.clearErrors();
   };
 
-  handleSubmit = event => {
+  handleSubmit = (event) => {
     event.preventDefault();
     this.props.postTroll({ troll: this.state.body });
   };
 
-  handleChange = event => {
+  handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
   };
 
@@ -74,7 +74,7 @@ class PostTroll extends Component {
 
     return (
       <>
-        <MyButton tip="Post troll" onClick={this.handleOpen}>
+        <MyButton tip="Post" onClick={this.handleOpen}>
           <AddIcon className={classes.icons} />
         </MyButton>
         <Dialog
@@ -90,16 +90,16 @@ class PostTroll extends Component {
           >
             <CloseIcon />
           </MyButton>
-          <DialogTitle>Post a new troll</DialogTitle>
+          <DialogTitle>New Podcast</DialogTitle>
           <DialogContent>
             <form onSubmit={this.handleSubmit}>
               <TextField
                 name="body"
                 type="text"
-                label="Troll"
+                label="Post"
                 multiline
                 rows="3"
-                placeholder="Feed the troll"
+                placeholder="Add a new post"
                 error={errors.troll ? true : false}
                 helperText={errors.troll}
                 className={classes.TextField}
@@ -129,7 +129,7 @@ class PostTroll extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   ui: state.ui,
 });
 

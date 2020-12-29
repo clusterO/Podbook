@@ -22,7 +22,7 @@ import LikeButton from "./LikeButton";
 import Comments from "./Comments";
 import CommentForm from "./CommentForm";
 
-const styles = theme => ({
+const styles = (theme) => ({
   ...theme.styles,
   profileImage: {
     maxWidth: 200,
@@ -136,7 +136,7 @@ class TrollDialog extends Component {
       <>
         <MyButton
           onClick={this.handleOpen}
-          tip="Expand troll"
+          tip="Expand post"
           tipClassName={classes.expandButton}
         >
           <UnfoldMore color="primary" />
@@ -163,7 +163,7 @@ class TrollDialog extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   troll: state.data.troll,
   ui: state.ui,
 });

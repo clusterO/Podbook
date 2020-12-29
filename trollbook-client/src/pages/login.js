@@ -13,7 +13,7 @@ import AppIcon from "../assets/images/troll.ico";
 import { connect } from "react-redux";
 import { userLogin } from "../redux/actions/userActions";
 
-const styles = theme => ({
+const styles = (theme) => ({
   ...theme.styles,
 });
 
@@ -31,7 +31,7 @@ class Login extends Component {
     if (nextProp.ui.errors) this.setState({ errors: nextProp.ui.errors });
   }
 
-  handleSubmit = event => {
+  handleSubmit = (event) => {
     event.preventDefault();
 
     const userData = {
@@ -42,7 +42,7 @@ class Login extends Component {
     this.props.userLogin(userData, this.props.history);
   };
 
-  handleChange = event => {
+  handleChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value,
     });
@@ -59,7 +59,7 @@ class Login extends Component {
       <Grid container className={classes.form}>
         <Grid item sm />
         <Grid item sm>
-          <img src={AppIcon} alt="troll" className={classes.image} />
+          <img src={AppIcon} alt="pod" className={classes.image} />
           <form noValidate onSubmit={this.handleSubmit}>
             <TextField
               id="email"
@@ -120,7 +120,7 @@ Login.propTypes = {
   ui: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.user,
   ui: state.ui,
 });

@@ -24,10 +24,10 @@ class User extends Component {
     this.props.getUserData(handle);
     axios
       .get(`/user/${handle}`)
-      .then(result => {
+      .then((result) => {
         this.setState({ profile: result.data.user });
       })
-      .catch(err => console.error(err));
+      .catch((err) => console.error(err));
   }
 
   render() {
@@ -37,11 +37,11 @@ class User extends Component {
     const trollsMarkUp = loading ? (
       <TrollSkelton />
     ) : trolls === null ? (
-      <p>No trolls from this user</p>
+      <p>No posts from this user</p>
     ) : !trollId ? (
-      trolls.map(troll => <Troll key={troll.trollId} troll={troll} />)
+      trolls.map((troll) => <Troll key={troll.trollId} troll={troll} />)
     ) : (
-      trolls.map(troll => {
+      trolls.map((troll) => {
         if (troll.trollId !== trollId)
           return <Troll key={troll.trollId} troll={troll} />;
         else return <Troll key={troll.trollId} troll={troll} openDialog />;
@@ -65,7 +65,7 @@ class User extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   data: state.data,
 });
 

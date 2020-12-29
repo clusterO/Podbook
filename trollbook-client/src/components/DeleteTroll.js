@@ -38,7 +38,7 @@ class DeleteTroll extends Component {
     return (
       <>
         <MyButton
-          tip="Delete troll"
+          tip="Delete post"
           onClick={this.handleOpen}
           btnClassName={classes.deleteButton}
         >
@@ -50,7 +50,7 @@ class DeleteTroll extends Component {
           fullWidth
           maxWidth="sm"
         >
-          <DialogTitle>Are you sure you want to delete this troll</DialogTitle>
+          <DialogTitle>Are you sure you want to delete this post</DialogTitle>
           <DialogActions>
             <Button onClick={this.handleClose} color="primary">
               Cancel
@@ -65,7 +65,7 @@ class DeleteTroll extends Component {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = {
   deleteTroll,

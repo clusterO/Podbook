@@ -1,3 +1,2 @@
 ### Con-trollers
-##### User this site to trace research
-##### about esoteric subjects
+##### Use this site to discuss podcasts
